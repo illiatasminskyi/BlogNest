@@ -1,0 +1,8 @@
+-- Database: blog
+
+-- DROP DATABASE IF EXISTS blog;
+
+CREATE DATABASE blog
+WITH
+    OWNER = blogadmin ENCODING = 'UTF8' LC_COLLATE = 'ru_UA.UTF-8' LC_CTYPE = 'ru_UA.UTF-8' TABLESPACE = pg_default CONNECTION
+LIMIT = -1 IS_TEMPLATE = False;
