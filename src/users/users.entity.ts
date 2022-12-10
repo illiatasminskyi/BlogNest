@@ -1,4 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Posts } from 'src/posts/posts.entity';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 
 export enum UserRole {
   ADMIN = 'admin',
@@ -19,4 +26,7 @@ export class Users {
     default: UserRole.MANAGER,
   })
   role: UserRole;
+
+  @OneToMany(() => Posts, (post) => post.author)
+  posts: Posts[];
 }
