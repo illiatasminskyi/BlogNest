@@ -11,6 +11,8 @@ import { TagsController } from './tags/tags.controller';
 import { TagsModule } from './tags/tags.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { FacebookStrategy } from './login/facebook.strategy';
+import { AppController } from './app.controller';
 
 @Module({
   imports: [
@@ -34,7 +36,12 @@ import { ConfigModule } from '@nestjs/config';
     CategoryModule,
     TagsModule,
   ],
-  controllers: [UsersController, PostsController, TagsController],
-  providers: [RolesService, CategoryService],
+  controllers: [
+    AppController,
+    UsersController,
+    PostsController,
+    TagsController,
+  ],
+  providers: [RolesService, CategoryService, FacebookStrategy],
 })
 export class AppModule {}
