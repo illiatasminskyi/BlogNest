@@ -17,8 +17,7 @@ import { UsersService } from './users.service';
 
 @Controller('auth')
 export class UsersController {
-  @Inject(UsersService)
-  private readonly service: UsersService;
+  constructor(private usersService: UsersService) {}
 
   @Get('/facebook')
   @UseGuards(AuthGuard('facebook'))
@@ -29,13 +28,14 @@ export class UsersController {
   @Get('/facebook/redirect')
   @UseGuards(AuthGuard('facebook'))
   async facebookLoginRedirect(@Req() req: Request): Promise<any> {
-    return {
-      data: req.user,
-    };
+    const data = req.user;
+    // const d2 = data.map((x) => console.log(x));
+
+    return data;
   }
 
   @Post('/user')
-  public createUser(@Body() Body: CreateUserDto): Promise<Users> {
-    return this.service.createUser(Body);
+  async create(@Body() createUserDto: CreateUserDto) {
+    return this.usersService.create(createUserDto);
   }
 }

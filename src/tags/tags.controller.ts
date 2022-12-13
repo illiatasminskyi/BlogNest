@@ -6,15 +6,21 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { TagsService } from './tags.service';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
+import { Role } from 'src/roles/role.enum';
+import { Roles } from 'src/roles/roles.decorator';
+import { RolesGuard } from 'src/roles/roles.guard';
 
 @Controller('tags')
 export class TagsController {
   constructor(private tagsService: TagsService) {}
 
+  // @Roles(Role.Admin)
+  // @UseGuards(RolesGuard)
   @Post('/create')
   async create(@Body() createTagDto: CreateTagDto) {
     return this.tagsService.create(createTagDto);

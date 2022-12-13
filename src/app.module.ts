@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common';
 import { UsersController } from './users/users.controller';
 import { UsersModule } from './users/users.module';
-import { RolesService } from './roles/roles.service';
-import { RolesModule } from './roles/roles.module';
 import { PostsController } from './posts/posts.controller';
 import { PostsModule } from './posts/posts.module';
 import { CategoryService } from './category/categories.service';
@@ -14,6 +12,9 @@ import { AppController } from './app.controller';
 import { Users } from './users/users.entity';
 import { TagsModule } from './tags/tags.module';
 import { Tag } from './tags/entities/tag.entity';
+import { APP_GUARD } from '@nestjs/core';
+import { RolesGuard } from './roles/roles.guard';
+import { Categories } from './category/categories.entity';
 
 @Module({
   imports: [
@@ -27,17 +28,16 @@ import { Tag } from './tags/entities/tag.entity';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      entities: [Users],
+      entities: [Users, Tag, Categories],
       synchronize: true,
       autoLoadEntities: true,
     }),
     UsersModule,
-    RolesModule,
     PostsModule,
     CategoryModule,
     TagsModule,
   ],
   controllers: [AppController],
-  providers: [RolesService, CategoryService],
+  providers: [],
 })
 export class AppModule {}
