@@ -1,11 +1,5 @@
 import { Posts } from 'src/posts/posts.entity';
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  ManyToOne,
-  OneToMany,
-} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 export enum UserRole {
   ADMIN = 'admin',
@@ -14,11 +8,17 @@ export enum UserRole {
 
 @Entity()
 export class Users {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column()
-  name: string;
+  email: string;
+
+  @Column()
+  firstName: string;
+
+  @Column()
+  lastName: string;
 
   @Column({
     type: 'enum',
@@ -29,4 +29,7 @@ export class Users {
 
   @OneToMany(() => Posts, (post) => post.author)
   posts: Posts[];
+
+  // @Column()
+  // token: string;
 }

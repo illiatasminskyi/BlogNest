@@ -7,12 +7,13 @@ import { PostsController } from './posts/posts.controller';
 import { PostsModule } from './posts/posts.module';
 import { CategoryService } from './category/categories.service';
 import { CategoryModule } from './category/categories.module';
-import { TagsController } from './tags/tags.controller';
-import { TagsModule } from './tags/tags.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { FacebookStrategy } from './login/facebook.strategy';
+import { FacebookStrategy } from './users/facebook.strategy';
 import { AppController } from './app.controller';
+import { Users } from './users/users.entity';
+import { TagsModule } from './tags/tags.module';
+import { Tag } from './tags/entities/tag.entity';
 
 @Module({
   imports: [
@@ -26,7 +27,7 @@ import { AppController } from './app.controller';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      entities: [],
+      entities: [Users],
       synchronize: true,
       autoLoadEntities: true,
     }),
@@ -36,12 +37,7 @@ import { AppController } from './app.controller';
     CategoryModule,
     TagsModule,
   ],
-  controllers: [
-    AppController,
-    UsersController,
-    PostsController,
-    TagsController,
-  ],
-  providers: [RolesService, CategoryService, FacebookStrategy],
+  controllers: [AppController],
+  providers: [RolesService, CategoryService],
 })
 export class AppModule {}

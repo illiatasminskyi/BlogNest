@@ -1,5 +1,5 @@
 import { Categories } from 'src/category/categories.entity';
-import { Tags } from 'src/tags/tags.entity';
+
 import { Users } from 'src/users/users.entity';
 import {
   Entity,
@@ -30,9 +30,9 @@ export class Posts {
   @ManyToOne(() => Categories, (category) => category.posts)
   category: Users;
 
-  @ManyToMany(() => Tags)
-  @JoinTable()
-  categories: Tags[];
+  // @ManyToMany(() => Tags)
+  // @JoinTable()
+  // categories: Tags[];
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
