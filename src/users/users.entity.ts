@@ -7,6 +7,9 @@ export class Users {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({ name: 'facebook_id', unique: true })
+  facebookId: string;
+
   @Column()
   email: string;
 
@@ -21,11 +24,8 @@ export class Users {
     enum: Role,
     default: Role.Manager,
   })
-  roles: Role[];
+  roles: string;
 
-  @OneToMany(() => Posts, (post) => post.author)
-  posts: Posts[];
-
-  @Column()
-  token: string;
+  // @OneToMany(() => Posts, (post) => post.author)
+  // posts: Posts[];
 }

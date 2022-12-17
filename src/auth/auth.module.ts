@@ -1,26 +1,26 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Users } from './users.entity';
-import { UsersController } from './users.controller';
-import { UsersService } from './users.service';
 import { FacebookStrategy } from './utils/facebook.strategy';
+import { Users } from 'src/users/users.entity';
+import { AuthService } from './auth.service';
+import { AuthController } from './auth.controller';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Users])],
   providers: [
-    UsersService,
+    AuthService,
     FacebookStrategy,
     {
       provide: 'AUTH_SERVICE',
-      useClass: UsersService,
+      useClass: AuthService,
     },
   ],
-  controllers: [UsersController],
+  controllers: [AuthController],
   exports: [
     {
       provide: 'AUTH_SERVICE',
-      useClass: UsersService,
+      useClass: AuthService,
     },
   ],
 })
-export class UsersModule {}
+export class AuthModule {}

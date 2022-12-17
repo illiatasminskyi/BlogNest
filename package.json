@@ -29,6 +29,7 @@
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/typeorm": "^9.0.1",
     "@types/passport-facebook": "^2.1.11",
+    "axios": "^1.2.1",
     "dotenv": "^16.0.3",
     "passport": "^0.6.0",
     "passport-facebook": "^3.0.0",

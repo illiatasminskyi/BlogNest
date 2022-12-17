@@ -13,8 +13,8 @@ import {
 
 @Entity()
 export class Posts {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column()
   title: string;
@@ -25,19 +25,19 @@ export class Posts {
   @Column()
   status: string;
 
-  @ManyToOne(() => Users, (user) => user.posts)
-  author: Users;
+  // @ManyToOne(() => Users, (user) => user.posts)
+  // author: Users;
 
-  @ManyToOne(() => Categories, (category) => category.posts)
-  category: Users;
+  // @ManyToOne(() => Categories, (category) => category.posts)
+  // category: Users;
 
-  @ManyToMany(() => Tag)
-  @JoinTable()
-  categories: Tag[];
+  // @ManyToMany(() => Tag)
+  // @JoinTable()
+  // tags: Tag[];
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  created_at: Date;
+  // @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  // created_at: Date;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  updated_at: Date;
+  // @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  // updated_at: Date;
 }
