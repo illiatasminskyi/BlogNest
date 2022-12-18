@@ -12,6 +12,8 @@ import { Categories } from './category/categories.entity';
 import { Posts } from './posts/posts.entity';
 import { AuthModule } from './auth/auth.module';
 import { PassportModule } from '@nestjs/passport';
+import { APP_GUARD } from '@nestjs/core';
+import { RolesGuard } from './roles/roles.guard';
 
 @Module({
   imports: [
@@ -37,6 +39,11 @@ import { PassportModule } from '@nestjs/passport';
     PassportModule.register({ session: true }),
   ],
   controllers: [AppController],
-  providers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
+  ],
 })
 export class AppModule {}

@@ -19,8 +19,7 @@ import { RolesGuard } from 'src/roles/roles.guard';
 export class TagsController {
   constructor(private tagsService: TagsService) {}
 
-  // @Roles(Role.Admin)
-  // @UseGuards(RolesGuard)
+  @Roles(Role.Admin)
   @Post('/create')
   async create(@Body() createTagDto: CreateTagDto) {
     return this.tagsService.create(createTagDto);
@@ -36,11 +35,13 @@ export class TagsController {
     return this.tagsService.findOne(id);
   }
 
+  @Roles(Role.Admin)
   @Patch(':id')
   async update(@Param('id') id: number, @Body() updateTagDto: UpdateTagDto) {
     return this.tagsService.update(id, updateTagDto);
   }
 
+  @Roles(Role.Admin)
   @Delete(':id')
   async remove(@Param('id') id: number) {
     return this.tagsService.remove(id);

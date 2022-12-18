@@ -22,9 +22,9 @@ export class Users {
   @Column({
     type: 'enum',
     enum: Role,
-    default: Role.Manager,
+    default: Role.Admin,
   })
-  roles: string;
+  roles: Role[];
 
   // @OneToMany(() => Posts, (post) => post.author)
   // posts: Posts[];

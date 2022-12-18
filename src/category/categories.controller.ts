@@ -10,11 +10,14 @@ import {
 import { CategoryService } from './categories.service';
 import { CreateCategoriesDto } from './dto/create-categories.dto';
 import { UpdateCategoriesDto } from './dto/update-categories.dto';
+import { Role } from 'src/roles/role.enum';
+import { Roles } from 'src/roles/roles.decorator';
 
 @Controller('category')
 export class CategoryController {
   constructor(private categoryService: CategoryService) {}
 
+  @Roles(Role.Admin)
   @Post('/create')
   async create(@Body() createTagDto: CreateCategoriesDto) {
     return this.categoryService.create(createTagDto);
@@ -30,6 +33,7 @@ export class CategoryController {
     return this.categoryService.findOne(id);
   }
 
+  @Roles(Role.Admin)
   @Patch(':id')
   async update(
     @Param('id') id: number,
@@ -38,6 +42,7 @@ export class CategoryController {
     return this.categoryService.update(id, updateTagDto);
   }
 
+  @Roles(Role.Admin)
   @Delete(':id')
   async remove(@Param('id') id: number) {
     return this.categoryService.remove(id);

@@ -17,15 +17,6 @@ export class RolesGuard implements CanActivate {
       return true;
     }
     const { user } = context.switchToHttp().getRequest();
-    // const user: Users = {
-    //   email: 'illhchscia@gmail.com',
-    //   firstName: 'Ihlsdclia',
-    //   lastName: 'Tasmiccsnsffkyi',
-    //   roles: [Role.Admin],
-    //   id: 0,
-    //   posts: [],
-    //   token: 0,
-    // };
     return requiredRoles.some((role) => user.roles?.includes(role));
   }
 }
