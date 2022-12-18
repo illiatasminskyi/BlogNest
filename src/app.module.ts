@@ -11,6 +11,7 @@ import { Tag } from './tags/entities/tag.entity';
 import { Categories } from './category/categories.entity';
 import { Posts } from './posts/posts.entity';
 import { AuthModule } from './auth/auth.module';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { AuthModule } from './auth/auth.module';
     CategoryModule,
     TagsModule,
     AuthModule,
+    PassportModule.register({ session: true }),
   ],
   controllers: [AppController],
   providers: [],

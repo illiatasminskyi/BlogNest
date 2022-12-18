@@ -3,9 +3,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserDetails } from './utils/types';
 import { Users } from 'src/users/users.entity';
+import { AuthenticationProvider } from './utils/auth';
 
 @Injectable()
-export class AuthService {
+export class AuthService implements AuthenticationProvider {
   constructor(
     @InjectRepository(Users) private readonly repo: Repository<Users>,
   ) {}

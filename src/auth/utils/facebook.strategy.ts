@@ -4,7 +4,7 @@ import { Profile, Strategy } from 'passport-facebook';
 import { AuthenticationProvider } from './auth';
 
 @Injectable()
-export class FacebookStrategy extends PassportStrategy(Strategy, 'facebook') {
+export class FacebookStrategy extends PassportStrategy(Strategy) {
   constructor(
     @Inject('AUTH_SERVICE')
     private readonly authService: AuthenticationProvider,
