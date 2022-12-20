@@ -26,6 +26,6 @@ export class Users {
   })
   roles: Role[];
 
-  // @OneToMany(() => Posts, (post) => post.author)
-  // posts: Posts[];
+  @OneToMany(() => Posts, (post) => post.author)
+  posts: Posts[];
 }

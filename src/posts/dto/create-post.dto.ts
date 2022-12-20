@@ -1,14 +1,19 @@
-import { Tag } from 'src/tags/entities/tag.entity';
-import { Users } from 'src/users/users.entity';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreatePostDto {
-  id: number;
+  @ApiProperty()
   title: string;
+
+  @ApiProperty()
   content: string;
+
+  @ApiProperty()
   status: string;
   // author: Users;
-  // category: Users;
-  // tags: Tag[];
-  // created_at: Date;
-  // updated_at: Date;
+
+  @ApiProperty()
+  category: any;
+
+  @ApiProperty()
+  tags: any;
 }

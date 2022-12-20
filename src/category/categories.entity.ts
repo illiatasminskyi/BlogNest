@@ -1,5 +1,13 @@
 import { Posts } from 'src/posts/posts.entity';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  JoinTable,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 
 @Entity()
 export class Categories {
@@ -9,6 +17,6 @@ export class Categories {
   @Column()
   title: string;
 
-  // @OneToMany(() => Posts, (post) => post.category)
-  // posts: Posts[];
+  @OneToMany(() => Posts, (post) => post.category)
+  posts: Posts[];
 }

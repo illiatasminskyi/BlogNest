@@ -9,6 +9,7 @@ import {
   ManyToOne,
   JoinTable,
   ManyToMany,
+  OneToMany,
 } from 'typeorm';
 
 @Entity()
@@ -25,19 +26,23 @@ export class Posts {
   @Column()
   status: string;
 
-  // @ManyToOne(() => Users, (user) => user.posts)
-  // author: Users;
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  created_at: Date;
 
-  // @ManyToOne(() => Categories, (category) => category.posts)
-  // category: Users;
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  updated_at: Date;
 
-  // @ManyToMany(() => Tag)
+  @ManyToOne(() => Users, (user) => user.posts)
+  author: Users;
+
+  @ManyToOne(() => Categories, (category) => category.posts)
+  category: Categories;
+
+  @ManyToMany(() => Tag, (tag) => tag.posts)
+  @JoinTable()
+  tags: Tag[];
+
+  // @ManyToMany(() => Tag, (tag) => tag.posts)
   // @JoinTable()
-  // tags: Tag[];
-
-  // @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  // created_at: Date;
-
-  // @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  // updated_at: Date;
+  // tags: Promise<Tag[]>;
 }

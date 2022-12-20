@@ -14,12 +14,14 @@ import { UpdateTagDto } from './dto/update-tag.dto';
 import { Role } from 'src/roles/role.enum';
 import { Roles } from 'src/roles/roles.decorator';
 import { RolesGuard } from 'src/roles/roles.guard';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Tags')
 @Controller('tags')
 export class TagsController {
   constructor(private tagsService: TagsService) {}
 
-  @Roles(Role.Admin)
+  // @Roles(Role.Admin)
   @Post('/create')
   async create(@Body() createTagDto: CreateTagDto) {
     return this.tagsService.create(createTagDto);

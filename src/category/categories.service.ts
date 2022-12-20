@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Categories } from './categories.entity';
 import { CreateCategoriesDto } from './dto/create-categories.dto';
 import { UpdateCategoriesDto } from './dto/update-categories.dto';
+import slugify from 'slugify';
 
 @Injectable()
 export class CategoryService {
@@ -13,15 +14,33 @@ export class CategoryService {
 
   create(createCategoriesDto: CreateCategoriesDto) {
     const category = this.repo.create(createCategoriesDto);
-    return this.repo.save(category);
+    const { title, ...data } = category;
+    const slug = slugify(title, {
+      replacement: '_',
+      lower: true,
+    });
+    const categoryRes = {
+      title: slug,
+      ...data,
+    };
+    return this.repo.save(categoryRes);
   }
 
   findAll() {
-    return this.repo.find();
+    return this.repo.find({
+      relations: {
+        posts: true,
+      },
+    });
   }
 
   async findOne(id: number) {
-    const category = await this.repo.findOne({ where: { id } });
+    const category = await this.repo.findOne({
+      where: { id },
+      relations: {
+        posts: true,
+      },
+    });
     if (!category) return { message: `Not found tag id ${id}` };
     return category;
   }

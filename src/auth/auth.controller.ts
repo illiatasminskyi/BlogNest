@@ -14,7 +14,9 @@ import {
   FacebookAuthGuard,
   LoginGuard,
 } from './utils/authenticated.guard';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private usersService: AuthService) {}
