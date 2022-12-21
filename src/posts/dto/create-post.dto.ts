@@ -9,11 +9,13 @@ export class CreatePostDto {
 
   @ApiProperty()
   status: string;
-  // author: Users;
 
   @ApiProperty()
   category: any;
 
-  @ApiProperty()
-  tags: any;
+  // @ApiProperty()
+  // author: any;
+
+  // @ApiProperty()
+  // tags: any;
 }

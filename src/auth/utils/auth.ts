@@ -4,5 +4,5 @@ import { UserDetails } from './types';
 export interface AuthenticationProvider {
   validateUser(details: UserDetails);
   createUser(details: UserDetails);
-  findUser(discordId: string): Promise<Users | undefined>;
+  findUser(id: string): Promise<Users | undefined>;
 }

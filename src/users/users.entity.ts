@@ -1,13 +1,19 @@
 import { Posts } from 'src/posts/posts.entity';
 import { Role } from 'src/roles/role.enum';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  OneToMany,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Users {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ name: 'facebook_id', unique: true })
+  @Column({ unique: true })
   facebookId: string;
 
   @Column()

@@ -5,7 +5,9 @@ import {
   PrimaryGeneratedColumn,
   ManyToMany,
   JoinTable,
+  ManyToOne,
 } from 'typeorm';
+import { PostsAndTags } from './posts_tags.entity';
 
 @Entity()
 export class Tag {
@@ -15,9 +17,9 @@ export class Tag {
   @Column()
   title: string;
 
-  @ManyToMany(() => Posts, (post) => post.tags)
+  @ManyToOne(() => PostsAndTags, (tags) => tags.posts)
   @JoinTable()
-  posts: Posts[];
+  posts: PostsAndTags[];
 
   // @ManyToMany(() => Posts, (post) => post.tags)
   // @JoinTable()

@@ -1,4 +1,5 @@
 import { Categories } from 'src/category/categories.entity';
+import { PostsAndTags } from 'src/tags/entities/posts_tags.entity';
 import { Tag } from 'src/tags/entities/tag.entity';
 
 import { Users } from 'src/users/users.entity';
@@ -32,17 +33,13 @@ export class Posts {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updated_at: Date;
 
-  @ManyToOne(() => Users, (user) => user.posts)
-  author: Users;
+  @ManyToOne(() => Users, (author) => author.posts)
+  author: any;
 
   @ManyToOne(() => Categories, (category) => category.posts)
   category: Categories;
 
-  @ManyToMany(() => Tag, (tag) => tag.posts)
-  @JoinTable()
-  tags: Tag[];
-
-  // @ManyToMany(() => Tag, (tag) => tag.posts)
+  // @ManyToOne(() => PostsAndTags, (posts) => posts.tags)
   // @JoinTable()
-  // tags: Promise<Tag[]>;
+  // tags: PostsAndTags[];
 }

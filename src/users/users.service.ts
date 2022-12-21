@@ -10,19 +10,22 @@ export class UsersService {
   ) {}
 
   findAll() {
-    return this.repo.find({
-      relations: {
-        posts: true,
-      },
-    });
+    return this.repo
+      .find
+      //   {
+      //   relations: {
+      //     posts: true,
+      //   },
+      // }
+      ();
   }
 
   async findOne(id: number) {
     const user = await this.repo.findOne({
       where: { id },
-      relations: {
-        posts: true,
-      },
+      // relations: {
+      //   posts: true,
+      // },
     });
     if (!user) return { message: `Not found post id ${id}` };
 
