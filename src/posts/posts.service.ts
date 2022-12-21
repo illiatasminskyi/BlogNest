@@ -6,6 +6,7 @@ import { UpdatePostDto } from './dto/update-tag.dto';
 import { Posts } from './posts.entity';
 import slugify from 'slugify';
 import { Users } from 'src/users/users.entity';
+import { Categories } from 'src/category/categories.entity';
 
 interface authorI {
   title: string;
@@ -17,16 +18,19 @@ export class PostsService {
   constructor(
     @InjectRepository(Posts) private readonly repo: Repository<Posts>,
     @InjectRepository(Users) private readonly repoUsers: Repository<Users>,
+    @InjectRepository(Categories)
+    private readonly repoCategories: Repository<Categories>,
   ) {}
 
   async create(createPostDto: CreatePostDto, req) {
     const post = this.repo.create(createPostDto);
-    const { title, author, ...data } = post;
+    const { title, tags, author, ...data } = post;
+    // console.log('createPostDto:', createPostDto);
+    // console.log('tags:', createPostDto.tags);
     const userId = await this.repoUsers.findOne({
       where: { id: req.user.id },
     } as any);
     const { id, ...user } = userId;
-    console.log(user);
     const slug = slugify(title, {
       replacement: '_',
       lower: true,
@@ -34,8 +38,10 @@ export class PostsService {
     const postRes: Posts = {
       title: slug,
       author: { id },
+      tags: createPostDto.tags,
       ...data,
     };
+    console.log('postRes:', postRes);
     return this.repo.save(postRes);
   }
 
@@ -44,7 +50,7 @@ export class PostsService {
       relations: {
         category: true,
         author: true,
-        // tags: true,
+        tags: true,
       },
     });
   }
@@ -54,7 +60,7 @@ export class PostsService {
       where: { id },
       relations: {
         category: true,
-        // tags: true,
+        tags: true,
         author: true,
       },
     });
@@ -80,11 +86,17 @@ export class PostsService {
   }
 
   async findCatrgory(catrgory: string) {
-    const post = await this.repo.find({
-      where: { catrgory: Like(`${catrgory}%`) },
+    const postCatrgory = this.repoCategories.find({
+      where: { title: Like(`${catrgory}%`) },
+      relations: {
+        posts: true,
+      },
     } as any);
-    if (!post) return { message: `Not found post title ${catrgory}` };
-    return post;
+    const postArr = [];
+    (await postCatrgory).map(
+      (item) => !!item.posts.length && postArr.push(item.posts),
+    );
+    return postArr;
   }
 
   async findTags(tags: string) {

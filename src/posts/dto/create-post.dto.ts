@@ -16,6 +16,6 @@ export class CreatePostDto {
   // @ApiProperty()
   // author: any;
 
-  // @ApiProperty()
-  // tags: any;
+  @ApiProperty()
+  tags: any;
 }

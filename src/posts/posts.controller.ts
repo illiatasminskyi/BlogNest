@@ -40,6 +40,7 @@ export class PostsController {
     // const userId = this.repoUsers.findOne({
     //   where: { id: req.user },
     // } as any);
+    // console.log(createPostDto.tags);
     return this.postsService.create(createPostDto, req);
   }
 

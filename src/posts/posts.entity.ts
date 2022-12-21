@@ -39,7 +39,9 @@ export class Posts {
   @ManyToOne(() => Categories, (category) => category.posts)
   category: Categories;
 
-  // @ManyToOne(() => PostsAndTags, (posts) => posts.tags)
-  // @JoinTable()
-  // tags: PostsAndTags[];
+  @OneToMany(() => Tag, (tag) => tag.posts)
+  tags: Tag[];
+
+  // @OneToMany(() => Tag, (tag) => tag.posts)
+  // tags: Tag[];
 }

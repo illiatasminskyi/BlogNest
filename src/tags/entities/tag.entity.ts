@@ -6,6 +6,7 @@ import {
   ManyToMany,
   JoinTable,
   ManyToOne,
+  OneToMany,
 } from 'typeorm';
 import { PostsAndTags } from './posts_tags.entity';
 
@@ -17,11 +18,13 @@ export class Tag {
   @Column()
   title: string;
 
-  @ManyToOne(() => PostsAndTags, (tags) => tags.posts)
-  @JoinTable()
-  posts: PostsAndTags[];
+  // @ManyToOne(() => PostsAndTags, (tags) => tags.posts)
+  // @JoinTable()
+  // posts: PostsAndTags[];
 
   // @ManyToMany(() => Posts, (post) => post.tags)
-  // @JoinTable()
-  // posts: Promise<Posts[]>;
+  // posts: Posts[];
+
+  @ManyToOne(() => Posts, (post) => post.tags)
+  posts: Posts;
 }

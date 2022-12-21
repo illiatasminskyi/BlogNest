@@ -4,9 +4,10 @@ import { PostsController } from './posts.controller';
 import { Posts } from './posts.entity';
 import { PostsService } from './posts.service';
 import { Users } from 'src/users/users.entity';
+import { Categories } from 'src/category/categories.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Posts, Users])],
+  imports: [TypeOrmModule.forFeature([Posts, Users, Categories])],
   controllers: [PostsController],
   providers: [PostsService],
 })
