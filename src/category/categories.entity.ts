@@ -17,6 +17,9 @@ export class Categories {
   @Column()
   title: string;
 
-  @OneToMany(() => Posts, (post) => post.category)
+  @OneToMany(() => Posts, (post) => post.category, {
+    onDelete: 'RESTRICT',
+    onUpdate: 'CASCADE',
+  })
   posts: Posts[];
 }

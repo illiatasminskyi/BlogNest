@@ -7,6 +7,7 @@ import { Posts } from './posts.entity';
 import { Users } from 'src/users/users.entity';
 import { Categories } from 'src/category/categories.entity';
 import { Tag } from 'src/tags/entities/tag.entity';
+import { Status } from './status.enum';
 
 @Injectable()
 export class PostsService {
@@ -39,7 +40,6 @@ export class PostsService {
     const postCatrgory = await this.repoCategories.findBy({
       title: category,
     } as any);
-
     if (!tagArr.length) return { message: `Not found tag tag` };
     newPosts.tags = await this.repoTags.findBy(tagArr);
     newPosts.title = title;
@@ -84,7 +84,7 @@ export class PostsService {
 
   async findContent(content: string) {
     const post = await this.repoPosts.find({
-      where: { title: Like(`${content}%`) },
+      where: { content: Like(`${content}%`) },
     } as any);
     if (!post) return { message: `Not found post title ${content}` };
     return post;
@@ -111,10 +111,21 @@ export class PostsService {
   }
 
   async update(id: number, updatePostDto: UpdatePostDto) {
-    await this.repoPosts.update(id, updatePostDto);
+    const { category, status, ...data } = updatePostDto;
+
+    const postCatrgory = await this.repoCategories.findBy({
+      title: category,
+    } as any);
+
+    const dataRes = {
+      category: postCatrgory[0],
+      status: Status.Edited,
+      ...data,
+    };
+    await this.repoPosts.update(id, dataRes);
     const post = await this.repoPosts.findOne({ where: { id } });
     if (!post) return { message: `Not found post id ${id}` };
-    return post;
+    return dataRes;
   }
 
   async remove(id: number) {

@@ -15,7 +15,11 @@ export class Tag {
   @Column()
   title: string;
 
-  @ManyToMany(() => Posts)
+  @ManyToMany(() => Posts, {
+    cascade: true,
+    onDelete: 'RESTRICT',
+    onUpdate: 'CASCADE',
+  })
   @JoinTable({
     name: 'posts_tags',
     joinColumn: {

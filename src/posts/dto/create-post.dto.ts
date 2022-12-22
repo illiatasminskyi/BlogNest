@@ -11,9 +11,6 @@ export class CreatePostDto {
   content: string;
 
   @ApiProperty()
-  status: string;
-
-  @ApiProperty()
   category: string;
 
   @ApiProperty()

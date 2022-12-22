@@ -25,7 +25,7 @@ export class CategoryController {
     return this.categoryService.create(createTagDto);
   }
 
-  @Get('/all')
+  @Get()
   findAll() {
     return this.categoryService.findAll();
   }

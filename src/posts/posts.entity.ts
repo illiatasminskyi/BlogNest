@@ -11,6 +11,7 @@ import {
   ManyToMany,
   OneToMany,
 } from 'typeorm';
+import { Status } from './status.enum';
 
 @Entity()
 export class Posts {
@@ -23,8 +24,12 @@ export class Posts {
   @Column()
   content: string;
 
-  @Column()
-  status: string;
+  @Column({
+    type: 'enum',
+    enum: Status,
+    default: Status.New,
+  })
+  status: Status;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
