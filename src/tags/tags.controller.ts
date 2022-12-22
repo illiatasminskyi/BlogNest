@@ -21,7 +21,7 @@ import { ApiTags } from '@nestjs/swagger';
 export class TagsController {
   constructor(private tagsService: TagsService) {}
 
-  // @Roles(Role.Admin)
+  @Roles(Role.Admin)
   @Post('/create')
   async create(@Body() createTagDto: CreateTagDto) {
     return this.tagsService.create(createTagDto);

@@ -21,6 +21,8 @@ import { Request } from 'express';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from 'src/users/users.entity';
 import { Repository } from 'typeorm';
+import { Role } from 'src/roles/role.enum';
+import { Roles } from 'src/roles/roles.decorator';
 
 @ApiTags('Posts')
 @Controller('posts')
@@ -30,6 +32,7 @@ export class PostsController {
     @InjectRepository(Users) private readonly repoUsers: Repository<Users>,
   ) {}
 
+  @Roles(Role.Admin, Role.Manager)
   @Post('/create')
   @UseGuards(AuthenticatedGuard)
   async create(@Body() createPostDto: CreatePostDto, @Req() req: Request) {
@@ -40,11 +43,6 @@ export class PostsController {
   findAll() {
     return this.postsService.findAll();
   }
-
-  // @Get(':id')
-  // findOne(@Param('id') id: number) {
-  //   return this.postsService.findOne(id);
-  // }
 
   @Get('search/title/:title')
   findTitle(@Param('title') title: string) {
@@ -66,11 +64,17 @@ export class PostsController {
     return this.postsService.findTags(tags);
   }
 
+  @Roles(Role.Manager, Role.Admin)
   @Patch(':id')
-  async update(@Param('id') id: number, @Body() updatePostDto: UpdatePostDto) {
-    return this.postsService.update(id, updatePostDto);
+  async update(
+    @Param('id') id: number,
+    @Body() updatePostDto: UpdatePostDto,
+    @Req() req: Request,
+  ) {
+    return this.postsService.update(id, updatePostDto, req);
   }
 
+  @Roles(Role.Admin)
   @Delete(':id')
   async remove(@Param('id') id: number) {
     return this.postsService.remove(id);

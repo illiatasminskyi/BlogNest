@@ -110,7 +110,17 @@ export class PostsService {
     return postTag;
   }
 
-  async update(id: number, updatePostDto: UpdatePostDto) {
+  async update(id: number, updatePostDto: UpdatePostDto, req) {
+    const post = await this.repoPosts.findOne({
+      where: { id },
+      relations: {
+        author: true,
+      },
+    });
+    if (!post) return { message: `Not found post id ${id}` };
+    if (!post.author.facebookId === req.user.facebookId)
+      return { message: `No access` };
+
     const { category, status, ...data } = updatePostDto;
 
     const postCatrgory = await this.repoCategories.findBy({
@@ -123,8 +133,8 @@ export class PostsService {
       ...data,
     };
     await this.repoPosts.update(id, dataRes);
-    const post = await this.repoPosts.findOne({ where: { id } });
-    if (!post) return { message: `Not found post id ${id}` };
+    // const post = await this.repoPosts.findOne({ where: { id } });
+    // if (!post) return { message: `Not found post id ${id}` };
     return dataRes;
   }
 

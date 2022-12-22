@@ -19,7 +19,7 @@ import { ApiTags } from '@nestjs/swagger';
 export class CategoryController {
   constructor(private categoryService: CategoryService) {}
 
-  // @Roles(Role.Admin)
+  @Roles(Role.Admin)
   @Post('/create')
   async create(@Body() createTagDto: CreateCategoriesDto) {
     return this.categoryService.create(createTagDto);
