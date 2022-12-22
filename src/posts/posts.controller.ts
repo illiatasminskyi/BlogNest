@@ -32,15 +32,7 @@ export class PostsController {
 
   @Post('/create')
   @UseGuards(AuthenticatedGuard)
-  async create(
-    @Body() createPostDto: CreatePostDto,
-    @Req() req: Request,
-    // @Session() session: Record<any, any>,
-  ) {
-    // const userId = this.repoUsers.findOne({
-    //   where: { id: req.user },
-    // } as any);
-    // console.log(createPostDto.tags);
+  async create(@Body() createPostDto: CreatePostDto, @Req() req: Request) {
     return this.postsService.create(createPostDto, req);
   }
 

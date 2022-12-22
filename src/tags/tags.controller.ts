@@ -27,7 +27,7 @@ export class TagsController {
     return this.tagsService.create(createTagDto);
   }
 
-  @Get('/all')
+  @Get()
   findAll() {
     return this.tagsService.findAll();
   }

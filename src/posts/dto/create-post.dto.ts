@@ -1,4 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Categories } from 'src/category/categories.entity';
+import { Posts } from 'src/posts/posts.entity';
+import { Tag } from 'src/tags/entities/tag.entity';
 
 export class CreatePostDto {
   @ApiProperty()
@@ -11,11 +14,8 @@ export class CreatePostDto {
   status: string;
 
   @ApiProperty()
-  category: any;
-
-  // @ApiProperty()
-  // author: any;
+  category: string;
 
   @ApiProperty()
-  tags: any;
+  tags: [];
 }

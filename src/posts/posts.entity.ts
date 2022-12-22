@@ -1,5 +1,4 @@
 import { Categories } from 'src/category/categories.entity';
-import { PostsAndTags } from 'src/tags/entities/posts_tags.entity';
 import { Tag } from 'src/tags/entities/tag.entity';
 
 import { Users } from 'src/users/users.entity';
@@ -37,11 +36,19 @@ export class Posts {
   author: any;
 
   @ManyToOne(() => Categories, (category) => category.posts)
-  category: Categories;
+  category: Categories | string;
 
-  @OneToMany(() => Tag, (tag) => tag.posts)
+  @ManyToMany(() => Tag)
+  @JoinTable({
+    name: 'posts_tags',
+    joinColumn: {
+      name: 'postsId',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'tagsId',
+      referencedColumnName: 'id',
+    },
+  })
   tags: Tag[];
-
-  // @OneToMany(() => Tag, (tag) => tag.posts)
-  // tags: Tag[];
 }

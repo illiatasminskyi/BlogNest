@@ -1,52 +1,57 @@
-import { Injectable, Session } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Like, Repository } from 'typeorm';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-tag.dto';
 import { Posts } from './posts.entity';
-import slugify from 'slugify';
 import { Users } from 'src/users/users.entity';
 import { Categories } from 'src/category/categories.entity';
-
-interface authorI {
-  title: string;
-  author: Users;
-}
+import { Tag } from 'src/tags/entities/tag.entity';
 
 @Injectable()
 export class PostsService {
   constructor(
-    @InjectRepository(Posts) private readonly repo: Repository<Posts>,
+    @InjectRepository(Posts) private readonly repoPosts: Repository<Posts>,
     @InjectRepository(Users) private readonly repoUsers: Repository<Users>,
     @InjectRepository(Categories)
     private readonly repoCategories: Repository<Categories>,
+    @InjectRepository(Tag)
+    private readonly repoTags: Repository<Tag>,
   ) {}
 
   async create(createPostDto: CreatePostDto, req) {
-    const post = this.repo.create(createPostDto);
-    const { title, tags, author, ...data } = post;
-    // console.log('createPostDto:', createPostDto);
-    // console.log('tags:', createPostDto.tags);
+    const newPosts = new Posts();
+    const post = this.repoPosts.create(createPostDto);
+
+    const { title, content, status, author, category, ...data } = post;
     const userId = await this.repoUsers.findOne({
       where: { id: req.user.id },
     } as any);
-    const { id, ...user } = userId;
-    const slug = slugify(title, {
-      replacement: '_',
-      lower: true,
+    const { id } = userId;
+
+    const tagArr = [];
+    createPostDto.tags.map((tag) => {
+      const tagId = {
+        title: tag,
+      };
+      tagArr.push(tagId);
     });
-    const postRes: Posts = {
-      title: slug,
-      author: { id },
-      tags: createPostDto.tags,
-      ...data,
-    };
-    console.log('postRes:', postRes);
-    return this.repo.save(postRes);
+    const postCatrgory = await this.repoCategories.findBy({
+      title: category,
+    } as any);
+
+    if (!tagArr.length) return { message: `Not found tag tag` };
+    newPosts.tags = await this.repoTags.findBy(tagArr);
+    newPosts.title = title;
+    newPosts.category = postCatrgory[0];
+    newPosts.content = content;
+    newPosts.status = status;
+    newPosts.author = { id };
+    return this.repoPosts.save(newPosts);
   }
 
-  findAll() {
-    return this.repo.find({
+  async findAll() {
+    return this.repoPosts.find({
       relations: {
         category: true,
         author: true,
@@ -56,7 +61,7 @@ export class PostsService {
   }
 
   async findOne(id: number) {
-    const post = await this.repo.findOne({
+    const post = await this.repoPosts.findOne({
       where: { id },
       relations: {
         category: true,
@@ -70,7 +75,7 @@ export class PostsService {
   }
 
   async findTitle(title: string) {
-    const post = await this.repo.find({
+    const post = await this.repoPosts.find({
       where: { title: Like(`${title}%`) },
     } as any);
     if (!post) return { message: `Not found post title ${title}` };
@@ -78,7 +83,7 @@ export class PostsService {
   }
 
   async findContent(content: string) {
-    const post = await this.repo.find({
+    const post = await this.repoPosts.find({
       where: { title: Like(`${content}%`) },
     } as any);
     if (!post) return { message: `Not found post title ${content}` };
@@ -86,37 +91,35 @@ export class PostsService {
   }
 
   async findCatrgory(catrgory: string) {
-    const postCatrgory = this.repoCategories.find({
+    const postCatrgory = await this.repoCategories.find({
       where: { title: Like(`${catrgory}%`) },
       relations: {
         posts: true,
       },
-    } as any);
-    const postArr = [];
-    (await postCatrgory).map(
-      (item) => !!item.posts.length && postArr.push(item.posts),
-    );
-    return postArr;
+    });
+    return postCatrgory;
   }
 
   async findTags(tags: string) {
-    const post = await this.repo.find({
-      where: { tags: Like(`${tags}%`) },
-    } as any);
-    if (!post) return { message: `Not found post title ${tags}` };
-    return post;
+    const postTag = await this.repoTags.find({
+      where: { title: Like(`${tags}%`) },
+      relations: {
+        posts: true,
+      },
+    });
+    return postTag;
   }
 
   async update(id: number, updatePostDto: UpdatePostDto) {
-    await this.repo.update(id, updatePostDto);
-    const post = await this.repo.findOne({ where: { id } });
+    await this.repoPosts.update(id, updatePostDto);
+    const post = await this.repoPosts.findOne({ where: { id } });
     if (!post) return { message: `Not found post id ${id}` };
     return post;
   }
 
   async remove(id: number) {
-    const post = await this.repo.findOne({ where: { id } });
+    const post = await this.repoPosts.findOne({ where: { id } });
     if (!post) return { message: `Not found post id ${id}` };
-    return await this.repo.delete(id);
+    return await this.repoPosts.delete(id);
   }
 }

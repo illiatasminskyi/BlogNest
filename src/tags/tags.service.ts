@@ -28,7 +28,7 @@ export class TagsService {
   findAll() {
     return this.repo.find({
       relations: {
-        posts: true,
+        // posts: true,
       },
     });
   }
@@ -37,7 +37,7 @@ export class TagsService {
     const tag = await this.repo.findOne({
       where: { id },
       relations: {
-        posts: true,
+        // posts: true,
       },
     });
     if (!tag) return { message: `Not found tag id ${id}` };
