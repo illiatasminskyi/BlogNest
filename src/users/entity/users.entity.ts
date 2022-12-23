@@ -29,3 +29,17 @@ export class Users {
   @OneToMany(() => Posts, (post) => post.author)
   posts: Posts[];
 }
+
+/*
+CREATE TABLE IF NOT EXISTS public.users
+(
+    id integer NOT NULL DEFAULT nextval('users_id_seq'::regclass),
+    "facebookId" character varying COLLATE pg_catalog."default" NOT NULL,
+    email character varying COLLATE pg_catalog."default" NOT NULL,
+    "firstName" character varying COLLATE pg_catalog."default" NOT NULL,
+    "lastName" character varying COLLATE pg_catalog."default" NOT NULL,
+    roles users_roles_enum NOT NULL DEFAULT 'admin'::users_roles_enum,
+    CONSTRAINT "PK_a3ffb1c0c8416b9fc6f907b7433" PRIMARY KEY (id),
+    CONSTRAINT "UQ_f9740e1e654a5daddb82c60bd75" UNIQUE ("facebookId")
+)
+*/

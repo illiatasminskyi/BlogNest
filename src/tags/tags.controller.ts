@@ -6,14 +6,14 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { TagsService } from './tags.service';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
 import { Role } from 'src/roles/role.enum';
 import { Roles } from 'src/roles/roles.decorator';
-import { RolesGuard } from 'src/roles/roles.guard';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Tags')
@@ -24,7 +24,9 @@ export class TagsController {
   @Roles(Role.Admin)
   @Post('/create')
   async create(@Body() createTagDto: CreateTagDto) {
-    return this.tagsService.create(createTagDto);
+    return this.tagsService.create(createTagDto).catch((err) => {
+      throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
+    });
   }
 
   @Get()
@@ -40,12 +42,16 @@ export class TagsController {
   @Roles(Role.Admin)
   @Patch(':id')
   async update(@Param('id') id: number, @Body() updateTagDto: UpdateTagDto) {
-    return this.tagsService.update(id, updateTagDto);
+    return this.tagsService.update(id, updateTagDto).catch((err) => {
+      throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
+    });
   }
 
   @Roles(Role.Admin)
   @Delete(':id')
   async remove(@Param('id') id: number) {
-    return this.tagsService.remove(id);
+    return this.tagsService.remove(id).catch((err) => {
+      throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
+    });
   }
 }

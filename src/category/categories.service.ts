@@ -5,6 +5,7 @@ import { Categories } from './entity/categories.entity';
 import { CreateCategoriesDto } from './dto/create-categories.dto';
 import { UpdateCategoriesDto } from './dto/update-categories.dto';
 import slugify from 'slugify';
+import { title } from 'process';
 
 @Injectable()
 export class CategoryService {
@@ -23,6 +24,7 @@ export class CategoryService {
       title: slug,
       ...data,
     };
+
     return this.repo.save(categoryRes);
   }
 

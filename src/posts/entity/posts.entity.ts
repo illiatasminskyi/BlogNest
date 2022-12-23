@@ -16,7 +16,7 @@ export class Posts {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ unique: true })
   title: string;
 
   @Column()
@@ -41,7 +41,11 @@ export class Posts {
   @ManyToOne(() => Categories, (category) => category.posts)
   category: Categories | string;
 
-  @ManyToMany(() => Tag)
+  @ManyToMany(() => Tag, {
+    cascade: true,
+    onDelete: 'NO ACTION',
+    onUpdate: 'CASCADE',
+  })
   @JoinTable({
     name: 'posts_tags',
     joinColumn: {
@@ -55,3 +59,26 @@ export class Posts {
   })
   tags: Tag[];
 }
+/*
+CREATE TABLE IF NOT EXISTS public.posts
+(
+    id integer NOT NULL DEFAULT nextval('posts_id_seq'::regclass),
+    title character varying COLLATE pg_catalog."default" NOT NULL,
+    content character varying COLLATE pg_catalog."default" NOT NULL,
+    status posts_status_enum NOT NULL DEFAULT 'new'::posts_status_enum,
+    created_at timestamp without time zone NOT NULL DEFAULT now(),
+    updated_at timestamp without time zone NOT NULL DEFAULT now(),
+    "authorId" integer,
+    "categoryId" integer,
+    CONSTRAINT "PK_2829ac61eff60fcec60d7274b9e" PRIMARY KEY (id),
+    CONSTRAINT "UQ_2d82eb2bb2ddd7a6bfac8804d8a" UNIQUE (title),
+    CONSTRAINT "FK_168bf21b341e2ae340748e2541d" FOREIGN KEY ("categoryId")
+        REFERENCES public.categories (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT "FK_c5a322ad12a7bf95460c958e80e" FOREIGN KEY ("authorId")
+        REFERENCES public.users (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+*/

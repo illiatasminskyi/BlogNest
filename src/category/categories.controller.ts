@@ -3,6 +3,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpException,
+  HttpStatus,
   Param,
   Patch,
   Post,
@@ -22,7 +24,9 @@ export class CategoryController {
   @Roles(Role.Admin)
   @Post('/create')
   async create(@Body() createTagDto: CreateCategoriesDto) {
-    return this.categoryService.create(createTagDto);
+    return this.categoryService.create(createTagDto).catch((err) => {
+      throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
+    });
   }
 
   @Get()
@@ -41,12 +45,16 @@ export class CategoryController {
     @Param('id') id: number,
     @Body() updateTagDto: UpdateCategoriesDto,
   ) {
-    return this.categoryService.update(id, updateTagDto);
+    return this.categoryService.update(id, updateTagDto).catch((err) => {
+      throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
+    });
   }
 
   @Roles(Role.Admin)
   @Delete(':id')
   async remove(@Param('id') id: number) {
-    return this.categoryService.remove(id);
+    return this.categoryService.remove(id).catch((err) => {
+      throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
+    });
   }
 }

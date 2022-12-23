@@ -3,6 +3,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpException,
+  HttpStatus,
   Param,
   Patch,
   Post,
@@ -33,7 +35,9 @@ export class PostsController {
   @Post('/create')
   @UseGuards(AuthenticatedGuard)
   async create(@Body() createPostDto: CreatePostDto, @Req() req: Request) {
-    return this.postsService.create(createPostDto, req);
+    return this.postsService.create(createPostDto, req).catch((err) => {
+      throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
+    });
   }
 
   @Get()
@@ -68,12 +72,16 @@ export class PostsController {
     @Body() updatePostDto: UpdatePostDto,
     @Req() req: Request,
   ) {
-    return this.postsService.update(id, updatePostDto, req);
+    return this.postsService.update(id, updatePostDto, req).catch((err) => {
+      throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
+    });
   }
 
   @Roles(Role.Admin)
   @Delete(':id')
   async remove(@Param('id') id: number) {
-    return this.postsService.remove(id);
+    return this.postsService.remove(id).catch((err) => {
+      throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
+    });
   }
 }
