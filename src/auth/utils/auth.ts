@@ -1,4 +1,4 @@
-import { Users } from 'src/users/users.entity';
+import { Users } from 'src/users/entity/users.entity';
 import { UserDetails } from './types';
 
 export interface AuthenticationProvider {

@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Users } from './users.entity';
+import { Users } from './entity/users.entity';
 
 @Injectable()
 export class UsersService {
@@ -24,7 +24,7 @@ export class UsersService {
         posts: true,
       },
     });
-    if (!user) return { message: `Not found post id ${id}` };
+    if (!user) throw new HttpException('Not found user', HttpStatus.NOT_FOUND);
 
     return user;
   }

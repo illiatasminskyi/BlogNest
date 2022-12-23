@@ -1,11 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { FacebookStrategy } from './utils/facebook.strategy';
-import { Users } from 'src/users/users.entity';
-import { AuthService } from './auth.service';
+import { Users } from 'src/users/entity/users.entity';
 import { AuthController } from './auth.controller';
+import { AuthService } from './auth.service';
 import { SessionSerializer } from './utils/Serializer';
-import { PassportModule } from '@nestjs/passport';
+import { FacebookStrategy } from './utils/facebook.strategy';
 
 @Module({
   controllers: [AuthController],

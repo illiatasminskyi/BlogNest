@@ -1,17 +1,15 @@
-import { Categories } from 'src/category/categories.entity';
+import { Categories } from 'src/category/entity/categories.entity';
 import { Tag } from 'src/tags/entities/tag.entity';
-
-import { Users } from 'src/users/users.entity';
+import { Users } from 'src/users/entity/users.entity';
 import {
-  Entity,
   Column,
-  PrimaryGeneratedColumn,
-  ManyToOne,
+  Entity,
   JoinTable,
   ManyToMany,
-  OneToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Status } from './status.enum';
+import { Status } from '../status.enum';
 
 @Entity()
 export class Posts {

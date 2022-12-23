@@ -1,12 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Categories } from 'src/category/entity/categories.entity';
+import { Tag } from 'src/tags/entities/tag.entity';
+import { Users } from 'src/users/entity/users.entity';
 import { Like, Repository } from 'typeorm';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-tag.dto';
-import { Posts } from './posts.entity';
-import { Users } from 'src/users/users.entity';
-import { Categories } from 'src/category/categories.entity';
-import { Tag } from 'src/tags/entities/tag.entity';
+import { Posts } from './entity/posts.entity';
 import { Status } from './status.enum';
 
 @Injectable()
@@ -40,7 +40,8 @@ export class PostsService {
     const postCatrgory = await this.repoCategories.findBy({
       title: category,
     } as any);
-    if (!tagArr.length) return { message: `Not found tag tag` };
+    if (!tagArr.length)
+      throw new HttpException('Not found tag', HttpStatus.NOT_FOUND);
     newPosts.tags = await this.repoTags.findBy(tagArr);
     newPosts.title = title;
     newPosts.category = postCatrgory[0];
@@ -69,7 +70,7 @@ export class PostsService {
         author: true,
       },
     });
-    if (!post) return { message: `Not found post id ${id}` };
+    if (!post) throw new HttpException('Not found post', HttpStatus.NOT_FOUND);
 
     return post;
   }
@@ -78,7 +79,7 @@ export class PostsService {
     const post = await this.repoPosts.find({
       where: { title: Like(`${title}%`) },
     } as any);
-    if (!post) return { message: `Not found post title ${title}` };
+    if (!post) throw new HttpException('Not found post', HttpStatus.NOT_FOUND);
     return post;
   }
 
@@ -86,7 +87,7 @@ export class PostsService {
     const post = await this.repoPosts.find({
       where: { content: Like(`${content}%`) },
     } as any);
-    if (!post) return { message: `Not found post title ${content}` };
+    if (!post) throw new HttpException('Not found post', HttpStatus.NOT_FOUND);
     return post;
   }
 
@@ -97,6 +98,8 @@ export class PostsService {
         posts: true,
       },
     });
+    if (!postCatrgory)
+      throw new HttpException('Not found post', HttpStatus.NOT_FOUND);
     return postCatrgory;
   }
 
@@ -107,6 +110,8 @@ export class PostsService {
         posts: true,
       },
     });
+    if (!postTag)
+      throw new HttpException('Not found post', HttpStatus.NOT_FOUND);
     return postTag;
   }
 
@@ -117,9 +122,9 @@ export class PostsService {
         author: true,
       },
     });
-    if (!post) return { message: `Not found post id ${id}` };
+    if (!post) throw new HttpException('Not found post', HttpStatus.NOT_FOUND);
     if (!post.author.facebookId === req.user.facebookId)
-      return { message: `No access` };
+      throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
 
     const { category, status, ...data } = updatePostDto;
 
@@ -133,14 +138,12 @@ export class PostsService {
       ...data,
     };
     await this.repoPosts.update(id, dataRes);
-    // const post = await this.repoPosts.findOne({ where: { id } });
-    // if (!post) return { message: `Not found post id ${id}` };
     return dataRes;
   }
 
   async remove(id: number) {
     const post = await this.repoPosts.findOne({ where: { id } });
-    if (!post) return { message: `Not found post id ${id}` };
+    if (!post) throw new HttpException('Not found post', HttpStatus.NOT_FOUND);
     return await this.repoPosts.delete(id);
   }
 }

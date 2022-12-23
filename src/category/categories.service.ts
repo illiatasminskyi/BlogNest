@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Categories } from './categories.entity';
+import { Categories } from './entity/categories.entity';
 import { CreateCategoriesDto } from './dto/create-categories.dto';
 import { UpdateCategoriesDto } from './dto/update-categories.dto';
 import slugify from 'slugify';
@@ -41,20 +41,20 @@ export class CategoryService {
         posts: true,
       },
     });
-    if (!category) return { message: `Not found tag id ${id}` };
+    if (!category) throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     return category;
   }
 
   async update(id: number, updateCategoriesDto: UpdateCategoriesDto) {
     await this.repo.update(id, updateCategoriesDto);
     const category = await this.repo.findOne({ where: { id } });
-    if (!category) return { message: `Not found tag id ${id}` };
+    if (!category) throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     return category;
   }
 
   async remove(id: number) {
     const category = await this.repo.findOne({ where: { id } });
-    if (!category) return { message: `Not found tag id ${id}` };
+    if (!category) throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     return await this.repo.delete(id);
   }
 }

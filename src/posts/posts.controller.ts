@@ -4,25 +4,22 @@ import {
   Delete,
   Get,
   Param,
-  ParseUUIDPipe,
   Patch,
   Post,
   Req,
-  Session,
   UseGuards,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Request } from 'express';
+import { AuthenticatedGuard } from 'src/auth/utils/authenticated.guard';
+import { Role } from 'src/roles/role.enum';
+import { Roles } from 'src/roles/roles.decorator';
+import { Users } from 'src/users/entity/users.entity';
+import { Repository } from 'typeorm';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-tag.dto';
 import { PostsService } from './posts.service';
-import { Categories } from 'src/category/categories.entity';
-import { ApiTags } from '@nestjs/swagger';
-import { AuthenticatedGuard } from 'src/auth/utils/authenticated.guard';
-import { Request } from 'express';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Users } from 'src/users/users.entity';
-import { Repository } from 'typeorm';
-import { Role } from 'src/roles/role.enum';
-import { Roles } from 'src/roles/roles.decorator';
 
 @ApiTags('Posts')
 @Controller('posts')

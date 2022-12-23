@@ -1,12 +1,6 @@
-import { Posts } from 'src/posts/posts.entity';
+import { Posts } from 'src/posts/entity/posts.entity';
 import { Role } from 'src/roles/role.enum';
-import {
-  Entity,
-  Column,
-  OneToMany,
-  PrimaryColumn,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Entity, Column, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Users {
