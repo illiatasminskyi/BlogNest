@@ -1,7 +1,5 @@
-import { Controller, Get, UseGuards, HttpStatus, Req } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
+import { Controller, Get } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { Request } from 'express';
 
 @ApiTags('Welcome')
 @Controller()

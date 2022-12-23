@@ -1,19 +1,19 @@
 import { Module } from '@nestjs/common';
-import { UsersModule } from './users/users.module';
-import { PostsModule } from './posts/posts.module';
-import { CategoryModule } from './category/categories.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
+import { PassportModule } from '@nestjs/passport';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
-import { Users } from './users/entity/users.entity';
-import { TagsModule } from './tags/tags.module';
-import { Tag } from './tags/entities/tag.entity';
+import { AuthModule } from './auth/auth.module';
+import { CategoryModule } from './category/categories.module';
 import { Categories } from './category/entity/categories.entity';
 import { Posts } from './posts/entity/posts.entity';
-import { AuthModule } from './auth/auth.module';
-import { PassportModule } from '@nestjs/passport';
-import { APP_GUARD } from '@nestjs/core';
+import { PostsModule } from './posts/posts.module';
 import { RolesGuard } from './roles/roles.guard';
+import { Tag } from './tags/entities/tag.entity';
+import { TagsModule } from './tags/tags.module';
+import { Users } from './users/entity/users.entity';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [

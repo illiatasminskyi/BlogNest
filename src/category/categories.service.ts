@@ -1,11 +1,10 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import slugify from 'slugify';
 import { Repository } from 'typeorm';
-import { Categories } from './entity/categories.entity';
 import { CreateCategoriesDto } from './dto/create-categories.dto';
 import { UpdateCategoriesDto } from './dto/update-categories.dto';
-import slugify from 'slugify';
-import { title } from 'process';
+import { Categories } from './entity/categories.entity';
 
 @Injectable()
 export class CategoryService {

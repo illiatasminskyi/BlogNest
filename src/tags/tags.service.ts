@@ -1,11 +1,10 @@
-import { HttpException, HttpStatus, Injectable, Req } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DataSource, Repository } from 'typeorm';
+import slugify from 'slugify';
+import { Repository } from 'typeorm';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
 import { Tag } from './entities/tag.entity';
-import { Posts } from 'src/posts/entity/posts.entity';
-import slugify from 'slugify';
 
 @Injectable()
 export class TagsService {

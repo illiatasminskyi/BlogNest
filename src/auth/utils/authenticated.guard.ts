@@ -16,9 +16,7 @@ export class LoginGuard extends AuthGuard('facebook') {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const result = (await super.canActivate(context)) as boolean;
     const req = context.switchToHttp().getRequest();
-    // return req.isAuthenticated();
     await super.logIn(req);
-    // const session = req.session;
     return result;
   }
 }

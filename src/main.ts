@@ -1,13 +1,11 @@
+import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as connectRedis from 'connect-redis';
 import * as session from 'express-session';
 import * as passport from 'passport';
 import { createClient } from 'redis';
-import * as connectRedis from 'connect-redis';
-import { Logger } from '@nestjs/common';
-import * as csurf from 'csurf';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import fastifyCsrf from 'fastify-csrf';
+import { AppModule } from './app.module';
 
 async function bootstrap() {
   const logger = new Logger();

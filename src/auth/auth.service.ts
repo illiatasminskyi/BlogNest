@@ -15,7 +15,6 @@ export class AuthService implements AuthenticationProvider {
     const user = await this.repo.findOneBy({ facebookId });
     if (user) {
       await this.repo.update({ facebookId }, payload);
-      console.log('Updated');
       return user;
     }
     return this.createUser(payload);
