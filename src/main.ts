@@ -24,8 +24,8 @@ async function bootstrap() {
   // Session
   const RedisStore = connectRedis(session);
   const redisClient = createClient({
-    host: process.env.REDIS_HOST,
-    port: process.env.REDIS_PORT,
+    port: 6379,
+    host: 'redis',
   });
 
   redisClient.on('error', (err) =>
@@ -51,6 +51,6 @@ async function bootstrap() {
   );
   app.use(passport.initialize());
   app.use(passport.session());
-  await app.listen(PORT, () => console.log(`Server started on port = ${PORT}`));
+  await app.listen(PORT, () => console.log(`Server started`));
 }
 bootstrap();

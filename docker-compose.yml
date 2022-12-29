@@ -1,0 +1,34 @@
+version: "3.7"
+
+services:
+    api:
+        image: illia/blog
+        build:
+            dockerfile: Dockerfile
+            context: .
+        depends_on: 
+            - postgres
+            - redis
+        environment: 
+            DATABASE_URL: postgres://blogadmin:blog@postgres:5432/blog
+            NODE_ENV: development
+            PORT: 5000
+        ports:
+            - "8080:5000"
+    redis:
+        image: redis:6.0.16
+        restart: unless-stopped
+        expose:
+            - 6379
+            # - 6380:6379
+
+    postgres:
+        image: postgres:10.4
+        ports:
+            - "5000:5432"
+        environment: 
+            POSTGRES_USER: blogadmin
+            POSTGRES_PASSWORD: blog
+            POSTGRES_DB: blog
+            PG_USER: blogadmin
+

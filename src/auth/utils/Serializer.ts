@@ -12,11 +12,9 @@ export class SessionSerializer extends PassportSerializer {
     super();
   }
   serializeUser(user: Users, done: (err, user: Users) => void) {
-    console.log('serializeUser');
     done(null, user);
   }
   async deserializeUser(user: Users, done: (err, user: Users) => void) {
-    console.log('deserializeUser');
     const userDB = await this.authService.findUser(user.facebookId);
     return userDB ? done(null, userDB) : done(null, null);
   }
